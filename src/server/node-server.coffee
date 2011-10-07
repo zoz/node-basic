@@ -4,7 +4,7 @@ app = express.createServer()
 app.get '/', (req, res) ->
   res.send layoutSimple()
 
-layoutSimple = () -> '''  
+layoutSimple = (simpleValue) -> '''  
 <html>
 <head>
   <title>Node Basic Template</title>

@@ -1,1 +1,0 @@
-Basic Node.js template
