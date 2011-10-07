@@ -17,6 +17,7 @@ layoutSimple = (simpleValue) -> '''
 </html>
 '''
 
+
 app.listen 3000
 
 # keep this log message so that our ops scripts can detect when node has started
