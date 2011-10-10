@@ -94,17 +94,25 @@ end
 task :runserver do
   %x[mv tmp/log/server.log tmp/log/server-last.log]
 
-  cmd = "node build/server/node-server.js 2>&1 | tee tmp/log/server.log"
-  pout = IO.popen cmd
+  cmd = "node build/server/node-server.js > tmp/log/server.log 2>&1 &"
+  %x[#{cmd}]
 
-  line = pout.gets
-  if not (/node started/ =~ line)
+  file = File.open("tmp/log/server.log", "r")
+  l = nil
+  while (l == nil) do
+    l = file.gets
+    sleep 0.001
+  end
+  if not (/node started/ =~ l)
     puts "ERROR STARTING SERVER"
-    print line
-    print pout.readlines.join
+    puts l
+    # wait for the error to get written to the log file
+    sleep 0.1
+    print file.readlines().join
+    file.close()
     exit
   end
-
+  file.close()
 end
 
 desc "compile files, kill old node server process, start node, refresh browser"
